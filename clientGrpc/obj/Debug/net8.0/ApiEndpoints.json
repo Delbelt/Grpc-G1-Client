@@ -1,0 +1,34 @@
+[
+  {
+    "ContainingType": "clientGrpc.Controllers.GreeterController",
+    "Method": "SayHello",
+    "RelativePath": "Greeter/hello",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "message",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "clientGrpc.Controllers.GreeterController",
+    "Method": "GetUserById",
+    "RelativePath": "Greeter/user/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
