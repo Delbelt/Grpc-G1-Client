@@ -29,15 +29,22 @@ var httpHandler = new HttpClientHandler
     }
 };
 
-// Agrega el cliente gRPC
+// Agregar los clientes Grpc
 builder.Services.AddGrpcClient<Greeter.GreeterClient>(options =>
 {
-    options.Address = new Uri(URL_SERVER); // URL del servidor
+    options.Address = new Uri(URL_SERVER);
 })
 .ConfigurePrimaryHttpMessageHandler(() => httpHandler);
 
-// Se debe agregar al scope el servicio para consumir en el controlador
+builder.Services.AddGrpcClient<UserGrpcService.UserGrpcServiceClient>(options =>
+{
+    options.Address = new Uri(URL_SERVER);
+})
+.ConfigurePrimaryHttpMessageHandler(() => httpHandler);
+
+// Agregar al Scope los servicios
 builder.Services.AddScoped<IGreeterService, GreeterService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -49,7 +56,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Siempre debe ir antes de que pase por el middleware de Authorization
+// Siempre debe ir antes de que pase por el Middleware de Authorization
+
 app.UseCors("CQRS");
 
 app.UseAuthorization();
