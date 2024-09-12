@@ -1,5 +1,6 @@
 ﻿using clientGrpc.DTOs;
 using clientGrpc.Services;
+using Grpc.Core;
 using Microsoft.AspNetCore.Mvc;
 
 namespace clientGrpc.Controllers
@@ -20,13 +21,25 @@ namespace clientGrpc.Controllers
         [HttpGet("hello")]
         public async Task<IActionResult> SayHello(string message)
         {
-            var response = await _greeterService.SayHello(message);
+            try
+            {
+                var response = await _greeterService.SayHello(message);
 
-            _logger.LogInformation("[GreeterController][SayHello]: {message}", message);
+                _logger.LogInformation("[GreeterController][SayHello]: {message}", message);
 
-            var responseDTO = new mainDTO { Content = response };
+                var responseDTO = new mainDTO { Content = response };
 
-            return Ok(responseDTO);
-        }   
+                return Ok(responseDTO);
+            }
+
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[UserController][GetUserById]: {error}", ex.Message);
+
+                return StatusCode(500, responseDTO);
+            }
+        }
     }
 }
