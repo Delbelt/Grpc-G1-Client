@@ -22,23 +22,11 @@ namespace clientGrpc.Controllers
         {
             var response = await _greeterService.SayHello(message);
 
-            _logger.LogInformation("[CLIENT][SayHello]: {message}", response);
-
-            var responseDTO = new mainDTO { Content = response };          
-
-            return Ok(responseDTO);
-        }
-
-        [HttpGet("user/{id}")]
-        public async Task<IActionResult> GetUserById(int id)
-        {
-            var response = await _greeterService.GetUserGrpc(id);
-
-            _logger.LogInformation("[CLIENT][GetUserById]: {message}", response.ToString());
+            _logger.LogInformation("[GreeterController][SayHello]: {message}", message);
 
             var responseDTO = new mainDTO { Content = response };
 
             return Ok(responseDTO);
-        }
+        }   
     }
 }
