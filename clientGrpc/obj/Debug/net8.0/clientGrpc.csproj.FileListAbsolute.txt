@@ -1,5 +1,3 @@
-C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\obj\Debug\net8.0\clientGrpc.csproj.AssemblyReference.cache
-C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\obj\Debug\net8.0\clientGrpc.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\bin\Debug\net8.0\appsettings.json
 C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\bin\Debug\net8.0\clientGrpc.exe
@@ -16,11 +14,14 @@ C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-i
 C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\obj\Debug\net8.0\clientGrpc.csproj.AssemblyReference.cache
+C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\obj\Debug\net8.0\clientGrpc.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\obj\Debug\net8.0\clientGrpc.AssemblyInfoInputs.cache
 C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\obj\Debug\net8.0\clientGrpc.AssemblyInfo.cs
 C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\obj\Debug\net8.0\clientGrpc.csproj.CoreCompileInputs.cache
 C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\obj\Debug\net8.0\clientGrpc.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\obj\Debug\net8.0\clientGrpc.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\obj\Debug\net8.0\clientGrpc.sourcelink.json
 C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Delbelt\Desktop\UNIVERSIDAD\B-Mier-Sist Distribuidos\trabajo-practico-integrador\client\clientGrpc\obj\Debug\net8.0\staticwebassets\msbuild.clientGrpc.Microsoft.AspNetCore.StaticWebAssets.props

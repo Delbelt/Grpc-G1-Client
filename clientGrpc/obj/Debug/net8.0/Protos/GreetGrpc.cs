@@ -49,10 +49,6 @@ namespace clientProto {
     static readonly grpc::Marshaller<global::clientProto.HelloRequest> __Marshaller_greet_HelloRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::clientProto.HelloRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::clientProto.HelloReply> __Marshaller_greet_HelloReply = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::clientProto.HelloReply.Parser));
-    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::clientProto.UserGrpcById> __Marshaller_greet_UserGrpcById = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::clientProto.UserGrpcById.Parser));
-    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::clientProto.UserGrpc> __Marshaller_greet_UserGrpc = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::clientProto.UserGrpc.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::clientProto.HelloRequest, global::clientProto.HelloReply> __Method_SayHello = new grpc::Method<global::clientProto.HelloRequest, global::clientProto.HelloReply>(
@@ -61,14 +57,6 @@ namespace clientProto {
         "SayHello",
         __Marshaller_greet_HelloRequest,
         __Marshaller_greet_HelloReply);
-
-    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::clientProto.UserGrpcById, global::clientProto.UserGrpc> __Method_GetUserGrpc = new grpc::Method<global::clientProto.UserGrpcById, global::clientProto.UserGrpc>(
-        grpc::MethodType.Unary,
-        __ServiceName,
-        "GetUserGrpc",
-        __Marshaller_greet_UserGrpcById,
-        __Marshaller_greet_UserGrpc);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -122,26 +110,6 @@ namespace clientProto {
       public virtual grpc::AsyncUnaryCall<global::clientProto.HelloReply> SayHelloAsync(global::clientProto.HelloRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_SayHello, null, options, request);
-      }
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::clientProto.UserGrpc GetUserGrpc(global::clientProto.UserGrpcById request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
-      {
-        return GetUserGrpc(request, new grpc::CallOptions(headers, deadline, cancellationToken));
-      }
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::clientProto.UserGrpc GetUserGrpc(global::clientProto.UserGrpcById request, grpc::CallOptions options)
-      {
-        return CallInvoker.BlockingUnaryCall(__Method_GetUserGrpc, null, options, request);
-      }
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::clientProto.UserGrpc> GetUserGrpcAsync(global::clientProto.UserGrpcById request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
-      {
-        return GetUserGrpcAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
-      }
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::clientProto.UserGrpc> GetUserGrpcAsync(global::clientProto.UserGrpcById request, grpc::CallOptions options)
-      {
-        return CallInvoker.AsyncUnaryCall(__Method_GetUserGrpc, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
