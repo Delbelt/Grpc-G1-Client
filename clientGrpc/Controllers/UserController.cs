@@ -33,19 +33,18 @@ namespace clientGrpc.Controllers
             }
 
             catch (RpcException ex)
-            {                
+            {
                 var responseDTO = new mainDTO { Content = ex.Status.Detail };
 
                 _logger.LogError("[UserController][GetUserById]: {error}", ex.Message);
 
                 if (ex.StatusCode.Equals(Grpc.Core.StatusCode.Unavailable))
-                {        
+                {
                     return StatusCode(500, responseDTO);
                 }
 
                 return NotFound(responseDTO);
             }
-            
         }
     }
 }
