@@ -6,7 +6,6 @@ package greet;
 
 service Greeter {
   rpc SayHello (HelloRequest) returns (HelloReply);
-  rpc GetUserGrpc (UserGrpcById) returns (UserGrpc);
 }
 
 message HelloRequest {
@@ -15,15 +14,4 @@ message HelloRequest {
 
 message HelloReply {
   string message = 1;
-}
-
-// Objeto a traves de Protocol Buffers
-message UserGrpc {
-  int32 id = 1;
-  string name = 2;
-}
-
-// Para traer al cliente
-message UserGrpcById {
-  int32 id = 1;
 }
