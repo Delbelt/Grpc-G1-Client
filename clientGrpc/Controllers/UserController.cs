@@ -7,25 +7,25 @@ namespace clientGrpc.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class GreeterController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly IGreeterService _greeterService;
+        private readonly IUserService _userService;
         private readonly ILogger<IGreeterService> _logger;
 
-        public GreeterController(IGreeterService greeterService, ILogger<IGreeterService> logger)
+        public UserController(IUserService userService, ILogger<IGreeterService> logger)
         {
-            _greeterService = greeterService;
+            _userService = userService;
             _logger = logger;
         }
 
-        [HttpGet("hello")]
-        public async Task<IActionResult> SayHello(string message)
+        [HttpGet("user/{id}")]
+        public async Task<IActionResult> GetUserById(int id)
         {
             try
             {
-                var response = await _greeterService.SayHello(message);
+                var response = await _userService.GetUserGrpc(id);
 
-                _logger.LogInformation("[GreeterController][SayHello]: {message}", message);
+                _logger.LogInformation("[UserController][GetUserById]: {message}", response.ToString());
 
                 var responseDTO = new mainDTO { Content = response };
 
@@ -38,7 +38,12 @@ namespace clientGrpc.Controllers
 
                 _logger.LogError("[UserController][GetUserById]: {error}", ex.Message);
 
-                return StatusCode(500, responseDTO);
+                if (ex.StatusCode.Equals(Grpc.Core.StatusCode.Unavailable))
+                {
+                    return StatusCode(500, responseDTO);
+                }
+
+                return NotFound(responseDTO);
             }
         }
     }

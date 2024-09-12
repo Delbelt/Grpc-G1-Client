@@ -16,15 +16,6 @@ namespace clientGrpc.Services.Implementations
             var response = await _greeterClient.SayHelloAsync(request);
 
             return response.Message;
-        }
-
-        public async Task<UserGrpc> GetUserGrpc(int id)
-        {
-            var fetchById = new UserGrpcById { Id = id };
-            
-            var response = await _greeterClient.GetUserGrpcAsync(fetchById);
-
-            return response;
-        }
+        }       
     }
 }

@@ -16,9 +16,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "clientGrpc.Controllers.GreeterController",
+    "ContainingType": "clientGrpc.Controllers.UserController",
     "Method": "GetUserById",
-    "RelativePath": "Greeter/user/{id}",
+    "RelativePath": "User/user/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
