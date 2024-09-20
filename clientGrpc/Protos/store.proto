@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option csharp_namespace = "clientProto";
+
+
+package store;
+
+message StoreGrpc {
+    string code = 1;
+    string address = 2;
+    string city = 3;          
+    string province = 4;      
+    bool active = 5;          
+}
+
+//Traer Store
+message RequestCode {
+    string code = 1;
+}
+
+service StoreGrpcService {
+    rpc getStoreGrpc (RequestCode) returns (StoreGrpc);
+}

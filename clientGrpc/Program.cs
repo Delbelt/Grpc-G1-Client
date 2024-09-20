@@ -42,10 +42,17 @@ builder.Services.AddGrpcClient<UserGrpcService.UserGrpcServiceClient>(options =>
 })
 .ConfigurePrimaryHttpMessageHandler(() => httpHandler);
 
+builder.Services.AddGrpcClient<StoreGrpcService.StoreGrpcServiceClient>(options =>
+{
+    options.Address = new Uri(URL_SERVER);
+}
+)
+.ConfigurePrimaryHttpMessageHandler(options => httpHandler);
+
 // Agregar al Scope los servicios
 builder.Services.AddScoped<IGreeterService, GreeterService>();
 builder.Services.AddScoped<IUserService, UserService>();
-
+builder.Services.AddScoped<IStoreService, StoreService>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
