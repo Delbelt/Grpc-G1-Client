@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option csharp_namespace = "clientProto";
+
+// Mensaje Stock que contiene solo los códigos de store y product
+message StockGrpc {
+    string code = 1;
+    string storeCode = 2; // Es string ya que en el mensaje se muestra solo el codigo, no el store completo
+    string productCode = 3; // Lo mismo que en store
+    int32 quantity = 4;
+}
+
+// Mensaje para obtener un Stock por su código
+message GetStockByIdRequest {
+    string code = 1;
+}
+
+// Definición del servicio gRPC
+service StockGrpcService {
+    rpc GetStockById(GetStockByIdRequest) returns (StockGrpc);
+}
