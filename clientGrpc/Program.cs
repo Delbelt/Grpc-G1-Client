@@ -49,10 +49,18 @@ builder.Services.AddGrpcClient<StoreGrpcService.StoreGrpcServiceClient>(options 
 )
 .ConfigurePrimaryHttpMessageHandler(options => httpHandler);
 
+builder.Services.AddGrpcClient<StockGrpcService.StockGrpcServiceClient>(options =>
+{
+    options.Address = new Uri(URL_SERVER);
+}
+)
+.ConfigurePrimaryHttpMessageHandler(options => httpHandler);
+
 // Agregar al Scope los servicios
 builder.Services.AddScoped<IGreeterService, GreeterService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
+builder.Services.AddScoped<IStockService, StockService>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
