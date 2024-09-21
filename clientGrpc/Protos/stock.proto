@@ -2,6 +2,8 @@ syntax = "proto3";
 
 option csharp_namespace = "clientProto";
 
+package stock;
+
 // Mensaje Stock que contiene solo los códigos de store y product
 message StockGrpc {
     string code = 1;
@@ -17,5 +19,5 @@ message GetStockByIdRequest {
 
 // Definición del servicio gRPC
 service StockGrpcService {
-    rpc GetStockById(GetStockByIdRequest) returns (StockGrpc);
+    rpc getStockById(GetStockByIdRequest) returns (StockGrpc);
 }
