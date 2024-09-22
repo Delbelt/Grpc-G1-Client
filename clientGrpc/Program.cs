@@ -1,6 +1,8 @@
 using clientGrpc.Services.Implementations;
 using clientGrpc.Services;
 using clientProto;
+using clientGrpc.Security;
+using authProto;
 
 var URL_FRONT = "http://localhost:3000";
 var URL_SERVER = "https://localhost:9091";
@@ -29,20 +31,33 @@ var httpHandler = new HttpClientHandler
     }
 };
 
-// Agregar los clientes Grpc
-builder.Services.AddGrpcClient<Greeter.GreeterClient>(options =>
+builder.Services.AddSingleton<AuthInterceptor>();
+
+// SEGURIDAD
+
+builder.Services.AddGrpcClient<AuthGrpcService.AuthGrpcServiceClient>(options =>
 {
     options.Address = new Uri(URL_SERVER);
 })
 .ConfigurePrimaryHttpMessageHandler(() => httpHandler);
+
+// Agregar los clientes Grpc
+builder.Services.AddGrpcClient<GreeterGrpcService.GreeterGrpcServiceClient>(options =>
+{
+    options.Address = new Uri(URL_SERVER);
+})
+.ConfigurePrimaryHttpMessageHandler(() => httpHandler)
+.AddInterceptor(provider => provider.GetRequiredService<AuthInterceptor>());
 
 builder.Services.AddGrpcClient<UserGrpcService.UserGrpcServiceClient>(options =>
 {
     options.Address = new Uri(URL_SERVER);
 })
-.ConfigurePrimaryHttpMessageHandler(() => httpHandler);
+.ConfigurePrimaryHttpMessageHandler(() => httpHandler)
+.AddInterceptor(provider => provider.GetRequiredService<AuthInterceptor>());
 
 // Agregar al Scope los servicios
+builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IGreeterService, GreeterService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
