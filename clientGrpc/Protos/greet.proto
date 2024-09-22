@@ -4,7 +4,7 @@ option csharp_namespace = "clientProto";
 
 package greet;
 
-service Greeter {
+service GreeterGrpcService {
   rpc SayHello (HelloRequest) returns (HelloReply);
 }
 
