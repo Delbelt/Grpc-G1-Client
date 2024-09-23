@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "productProto";
+
+package product;
+
+service ProductGrpcService {
+ rpc GetProductByCode (RequestId) returns (ProductGrpc);
+}
+
+message RequestId {
+    string code = 1;
+}
+
+message ProductGrpc {
+    string code = 1;
+    string name = 2;
+    string size = 3;
+    string photo = 4;
+    string color = 5;
+    bool active = 6;
+}
