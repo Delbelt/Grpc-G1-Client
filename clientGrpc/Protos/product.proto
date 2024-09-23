@@ -18,5 +18,5 @@ message ProductGrpc {
     string size = 3;
     string photo = 4;
     string color = 5;
-    bool active = 6;
+    bool active = 6; 
 }
