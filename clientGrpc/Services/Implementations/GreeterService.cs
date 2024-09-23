@@ -4,8 +4,8 @@ namespace clientGrpc.Services.Implementations
 {
     public class GreeterService : IGreeterService
     {
-        private readonly Greeter.GreeterClient _greeterClient;
-        public GreeterService(Greeter.GreeterClient greeterClient) 
+        private readonly GreeterGrpcService.GreeterGrpcServiceClient _greeterClient;
+        public GreeterService(GreeterGrpcService.GreeterGrpcServiceClient greeterClient) 
         {
             _greeterClient = greeterClient;
         }
