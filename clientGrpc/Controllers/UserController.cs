@@ -1,4 +1,5 @@
 ﻿using clientGrpc.DTOs;
+using clientGrpc.Handlers;
 using clientGrpc.Services;
 using Grpc.Core;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace clientGrpc.Controllers
             _logger = logger;
         }
 
-        [HttpGet("user/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
             try
@@ -26,8 +27,12 @@ namespace clientGrpc.Controllers
                 var response = await _userService.GetUserGrpc(id);
 
                 _logger.LogInformation("[UserController][GetUserById]: {message}", response.ToString());
+                               
 
-                var responseDTO = new mainDTO { Content = response };
+                var responseDTO = new mainDTO
+                { 
+                    Content = response,
+                };
 
                 return Ok(responseDTO);
             }
@@ -38,12 +43,7 @@ namespace clientGrpc.Controllers
 
                 _logger.LogError("[UserController][GetUserById]: {error}", ex.Message);
 
-                if (ex.StatusCode.Equals(Grpc.Core.StatusCode.Unavailable))
-                {
-                    return StatusCode(500, responseDTO);
-                }
-
-                return NotFound(responseDTO);
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
             }
         }
     }
