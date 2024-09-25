@@ -11,6 +11,15 @@ namespace clientGrpc.Handlers
                 return new UnauthorizedObjectResult(responseDTO);
             }
 
+            if (ex.StatusCode.Equals(Grpc.Core.StatusCode.PermissionDenied))
+            {
+
+                return new ObjectResult(responseDTO)
+                {
+                    StatusCode = 403
+                };
+            }
+
             if (ex.StatusCode.Equals(Grpc.Core.StatusCode.Unavailable))
             {           
                 return new ObjectResult(responseDTO)
