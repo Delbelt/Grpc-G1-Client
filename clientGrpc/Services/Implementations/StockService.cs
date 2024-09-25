@@ -1,4 +1,4 @@
-﻿using clientProto;
+﻿using stockProto;
 
 namespace clientGrpc.Services.Implementations
 {

@@ -1,7 +1,9 @@
-﻿namespace clientGrpc.Services
+﻿using clientGrpc.DTOs;
+
+namespace clientGrpc.Services
 {
     public interface IAuthService
     {
-        Task<string> Login(string username, string password);
+        Task<AuthDTO> Login(string username, string password);
     }
 }

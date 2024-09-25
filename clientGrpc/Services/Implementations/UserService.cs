@@ -1,4 +1,4 @@
-﻿using clientProto;
+﻿using userProto;
 
 namespace clientGrpc.Services.Implementations
 {
