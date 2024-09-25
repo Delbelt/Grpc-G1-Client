@@ -11,9 +11,9 @@ namespace clientGrpc.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly ILogger<IGreeterService> _logger;
+        private readonly ILogger<IUserService> _logger;
 
-        public UserController(IUserService userService, ILogger<IGreeterService> logger)
+        public UserController(IUserService userService, ILogger<IUserService> logger)
         {
             _userService = userService;
             _logger = logger;
