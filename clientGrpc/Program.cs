@@ -3,6 +3,7 @@ using clientGrpc.Services;
 using clientProto;
 using clientGrpc.Security;
 using authProto;
+using productProto;
 
 var URL_FRONT = "http://localhost:3000";
 var URL_SERVER = "https://localhost:9091";
@@ -70,12 +71,20 @@ builder.Services.AddGrpcClient<StockGrpcService.StockGrpcServiceClient>(options 
 )
 .ConfigurePrimaryHttpMessageHandler(options => httpHandler);
 
+builder.Services.AddGrpcClient<ProductGrpcService.ProductGrpcServiceClient>(options =>
+{
+    options.Address = new Uri(URL_SERVER);
+})
+.ConfigurePrimaryHttpMessageHandler(() => httpHandler)
+.AddInterceptor(provider => provider.GetRequiredService<AuthInterceptor>());
+
 // Agregar al Scope los servicios
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IGreeterService, GreeterService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
 builder.Services.AddScoped<IStockService, StockService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
