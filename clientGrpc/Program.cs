@@ -1,9 +1,13 @@
 using clientGrpc.Services.Implementations;
 using clientGrpc.Services;
-using clientProto;
 using clientGrpc.Security;
+
 using authProto;
 using productProto;
+using greetProto;
+using userProto;
+using storeProto;
+using stockProto;
 
 var URL_FRONT = "http://localhost:3000";
 var URL_SERVER = "https://localhost:9091";
@@ -62,14 +66,16 @@ builder.Services.AddGrpcClient<StoreGrpcService.StoreGrpcServiceClient>(options 
     options.Address = new Uri(URL_SERVER);
 }
 )
-.ConfigurePrimaryHttpMessageHandler(options => httpHandler);
+.ConfigurePrimaryHttpMessageHandler(options => httpHandler)
+.AddInterceptor(provider => provider.GetRequiredService<AuthInterceptor>());
 
 builder.Services.AddGrpcClient<StockGrpcService.StockGrpcServiceClient>(options =>
 {
     options.Address = new Uri(URL_SERVER);
 }
 )
-.ConfigurePrimaryHttpMessageHandler(options => httpHandler);
+.ConfigurePrimaryHttpMessageHandler(options => httpHandler)
+.AddInterceptor(provider => provider.GetRequiredService<AuthInterceptor>());
 
 builder.Services.AddGrpcClient<ProductGrpcService.ProductGrpcServiceClient>(options =>
 {
@@ -79,12 +85,13 @@ builder.Services.AddGrpcClient<ProductGrpcService.ProductGrpcServiceClient>(opti
 .AddInterceptor(provider => provider.GetRequiredService<AuthInterceptor>());
 
 // Agregar al Scope los servicios
-builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IGreeterService, GreeterService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
 builder.Services.AddScoped<IStockService, StockService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

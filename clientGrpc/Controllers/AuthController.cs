@@ -11,11 +11,11 @@ namespace clientGrpc.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly AuthService _authService;
-        private readonly ILogger<IGreeterService> _logger;
+        private readonly IAuthService _authService;
+        private readonly ILogger<IAuthService> _logger;
         private readonly AuthInterceptor _authInterceptor;
 
-        public AuthController(AuthService authService, ILogger<IGreeterService> logger, AuthInterceptor authInterceptor)
+        public AuthController(IAuthService authService, ILogger<IAuthService> logger, AuthInterceptor authInterceptor)
         {
             _authService = authService;
             _logger = logger;
@@ -27,16 +27,22 @@ namespace clientGrpc.Controllers
         {
             try
             {
-                var token = await _authService.Login(request.Username, request.Password);
+                var response = await _authService.Login(request.Username, request.Password);
+
+                string token = response.Token;
 
                 _authInterceptor.SetToken(token);
 
                 _logger.LogInformation("[AuthController][Login]: {token}", token);
 
-                // TODO: DTO token
-                var Token = new {Token = token};
+                AuthDTO auth = new AuthDTO
+                {
+                    Token = response.Token,
+                    UserName = response.UserName,
+                    Roles = response.Roles
+                };
 
-                var responseDTO = new mainDTO { Content = Token };
+                var responseDTO = new mainDTO { Content = auth };
 
                 return Ok(responseDTO);
             }

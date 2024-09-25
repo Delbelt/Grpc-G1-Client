@@ -15,4 +15,6 @@ message LoginRequest {
 
 message LoginResponse {
     string token = 1;
+    string username = 2;
+    repeated string roles = 3;
 }

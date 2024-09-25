@@ -1,4 +1,4 @@
-﻿using clientProto;
+﻿using greetProto;
 
 namespace clientGrpc.Services.Implementations
 {

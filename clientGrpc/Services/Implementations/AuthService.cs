@@ -1,4 +1,5 @@
 ﻿using authProto;
+using clientGrpc.DTOs;
 using clientGrpc.Services;
 
 public class AuthService : IAuthService
@@ -8,12 +9,19 @@ public class AuthService : IAuthService
     {
         _AuthGrpcService = authGrpcService;
     }
-    public async Task<string> Login(string username, string password)
+    public async Task<AuthDTO> Login(string username, string password)
     {
         var loginRequest = new LoginRequest { Username = username, Password = password };
 
         var response = await _AuthGrpcService.LoginGrpcAsync(loginRequest);
 
-        return response.Token;
+        AuthDTO auth = new AuthDTO
+        {
+            Token = response.Token,
+            UserName = response.Username,
+            Roles = [.. response.Roles],
+        };
+
+        return auth;
     }
 }
