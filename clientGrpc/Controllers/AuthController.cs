@@ -1,5 +1,6 @@
 ﻿using authProto;
 using clientGrpc.DTOs;
+using clientGrpc.Handlers;
 using clientGrpc.Security;
 using clientGrpc.Services;
 using Grpc.Core;
@@ -44,7 +45,7 @@ namespace clientGrpc.Controllers
 
                 var responseDTO = new mainDTO { Content = auth };
 
-                return Ok(responseDTO);
+                return CreatedAtAction(nameof(Login), new { id = response.UserName }, responseDTO);
             }
 
             catch (RpcException ex)
@@ -53,12 +54,7 @@ namespace clientGrpc.Controllers
 
                 _logger.LogError("[AuthController][Login]: {error}", ex.Message);
 
-                if (ex.StatusCode.Equals(Grpc.Core.StatusCode.Unavailable))
-                {
-                    return StatusCode(500, responseDTO);
-                }
-
-                return Unauthorized(responseDTO);
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
             }
         }
     }
