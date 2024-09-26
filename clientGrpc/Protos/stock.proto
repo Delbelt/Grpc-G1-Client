@@ -4,11 +4,13 @@ option csharp_namespace = "stockProto";
 
 package stock;
 
+import "Protos/product.proto";
+
 // Mensaje Stock que contiene solo los códigos de store y product
 message StockGrpc {
     string code = 1;
     string storeCode = 2; // Es string ya que en el mensaje se muestra solo el codigo, no el store completo
-    string productCode = 3; // Lo mismo que en store
+    product.ProductGrpc product = 3; // Muestra el objeto producto
     int32 quantity = 4;
 }
 
