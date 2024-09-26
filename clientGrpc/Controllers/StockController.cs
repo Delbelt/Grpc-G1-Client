@@ -1,31 +1,85 @@
-﻿using clientGrpc.Services;
+﻿using clientGrpc.DTOs;
+using clientGrpc.Handlers;
+using clientGrpc.Services;
+using Grpc.Core;
 using Microsoft.AspNetCore.Mvc;
-
-using System.Threading.Tasks;
+using stockProto;
 
 namespace clientGrpc.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class StockController : ControllerBase
     {
         private readonly IStockService _stockService;
+        private readonly ILogger<IStockService> _logger;
 
-        public StockController(IStockService stockService)
+        public StockController(IStockService stockService, ILogger<IStockService> logger)
         {
             _stockService = stockService;
+            _logger = logger;
         }
 
         [HttpGet("{code}")]
         public async Task<IActionResult> GetStockByCode(string code)
         {
-            var stock = await _stockService.GetStockByCode(code);
-
-            if(stock == null)
+            try
             {
-                return NotFound();
+                var stock = await _stockService.GetStockByCode(code);
+
+                if (stock == null)
+                {
+                    return NotFound();
+                }
+
+                _logger.LogInformation("[StockController][GetStockByCode]: {message}", stock.ToString());
+
+                var responseDTO = new mainDTO
+                {
+                    Content = stock,
+                };
+
+                return Ok(responseDTO);
             }
-            return Ok(stock);
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[StockController][GetStockByCode]: {error}", ex.Message);
+
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
+            }
+        }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllStocks()
+        {
+            try
+            {
+                var stockList = await _stockService.GetAllStocks();
+
+                if (stockList.Stocks.Count == 0)
+                {
+                    return NotFound("No stocks available.");
+                }
+
+                _logger.LogInformation("[StockController][GetAllStocks]: {count} stocks found", stockList.Stocks.Count);
+
+                var responseDTO = new mainDTO
+                {
+                    Content = stockList,
+                };
+
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[StockController][GetAllStocks]: {error}", ex.Message);
+
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
+            }
         }
     }
 }
