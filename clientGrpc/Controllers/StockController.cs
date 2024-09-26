@@ -112,5 +112,36 @@ namespace clientGrpc.Controllers
                 return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
             }
         }
+
+        [HttpGet("unavailable")] // Nuevo endpoint para obtener stocks no disponibles
+        public async Task<IActionResult> GetUnavailableStocks()
+        {
+            try
+            {
+                var unavailableStockList = await _stockService.GetUnavailableStocks();
+
+                if (unavailableStockList.Stocks.Count == 0)
+                {
+                    return NotFound("No unavailable stocks.");
+                }
+
+                _logger.LogInformation("[StockController][GetUnavailableStocks]: {count} unavailable stocks found", unavailableStockList.Stocks.Count);
+
+                var responseDTO = new mainDTO
+                {
+                    Content = unavailableStockList,
+                };
+
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[StockController][GetUnavailableStocks]: {error}", ex.Message);
+
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
+            }
+        }
     }
 }
