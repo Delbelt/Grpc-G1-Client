@@ -81,5 +81,36 @@ namespace clientGrpc.Controllers
                 return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
             }
         }
+
+        [HttpGet("available")]
+        public async Task<IActionResult> GetAvailableStocks()
+        {
+            try
+            {
+                var availableStockList = await _stockService.GetAvailableStocks();
+
+                if (availableStockList.Stocks.Count == 0)
+                {
+                    return NotFound("No available stocks.");
+                }
+
+                _logger.LogInformation("[StockController][GetAvailableStocks]: {count} available stocks found", availableStockList.Stocks.Count);
+
+                var responseDTO = new mainDTO
+                {
+                    Content = availableStockList,
+                };
+
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[StockController][GetAvailableStocks]: {error}", ex.Message);
+
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
+            }
+        }
     }
 }

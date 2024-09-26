@@ -31,4 +31,5 @@ message StockList {
 service StockGrpcService {
     rpc getStockById(GetStockByIdRequest) returns (StockGrpc);
     rpc getAllStocks(Empty) returns (StockList);
+    rpc getAvailableStocks(Empty) returns (StockList);
 }

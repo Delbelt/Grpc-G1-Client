@@ -22,5 +22,11 @@ namespace clientGrpc.Services.Implementations
             var request = new Empty(); // Crear un objeto Empty para la solicitud
             return await _client.getAllStocksAsync(request); // Llamar al RPC
         }
+
+        public async Task<StockList> GetAvailableStocks()
+        {
+            var request = new Empty(); // Solicitud vacía
+            return await _client.getAvailableStocksAsync(request);
+        }
     }
 }
