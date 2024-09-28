@@ -19,7 +19,18 @@ message GetStockByIdRequest {
     string code = 1;
 }
 
+// Mensaje para obtener todos los Stocks
+message Empty {}
+
+// Mensaje para devolver una lista de Stocks
+message StockList {
+    repeated StockGrpc stocks = 1; // Lista de stocks
+}
+
 // Definición del servicio gRPC
 service StockGrpcService {
     rpc getStockById(GetStockByIdRequest) returns (StockGrpc);
+    rpc getAllStocks(Empty) returns (StockList);
+    rpc getAvailableStocks(Empty) returns (StockList);
+    rpc getUnavailableStocks(Empty) returns (StockList);
 }

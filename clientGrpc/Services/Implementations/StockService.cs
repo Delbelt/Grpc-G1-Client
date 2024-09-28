@@ -16,5 +16,23 @@ namespace clientGrpc.Services.Implementations
             var request = new GetStockByIdRequest { Code = code };
             return await _client.getStockByIdAsync(request);
         }
+
+        public async Task<StockList> GetAllStocks()
+        {
+            var request = new Empty(); // Crear un objeto Empty para la solicitud
+            return await _client.getAllStocksAsync(request); // Llamar al RPC
+        }
+
+        public async Task<StockList> GetAvailableStocks()
+        {
+            var request = new Empty(); // Solicitud vacía
+            return await _client.getAvailableStocksAsync(request);
+        }
+
+        public async Task<StockList> GetUnavailableStocks()
+        {
+            var request = new Empty(); // Solicitud vacía
+            return await _client.getUnavailableStocksAsync(request);
+        }
     }
 }
