@@ -18,6 +18,12 @@ namespace clientGrpc.Services.Implementations
 
             return response;
         }
+        public async Task<ProductList> GetAllProductsGrpc()
+        {
+            var emptyRequest = new Empty(); // Solicitud vacía para obtener todos los productos
+            var response = await _ProductGrpcService.GetAllProductsAsync(emptyRequest);
+            return response;
+        }
 
     }
 }
