@@ -46,5 +46,35 @@ namespace clientGrpc.Controllers
                 return NotFound(responseDTO);
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllProducts()
+        {
+            try
+            {
+                var response = await _productService.GetAllProductsGrpc();
+
+                _logger.LogInformation("[ProductController][GetAllProducts]: {message}", response.ToString());
+
+                var responseDTO = new mainDTO { Content = response };
+
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[ProductController][GetAllProducts]: {error}", ex.Message);
+
+                if (ex.StatusCode.Equals(Grpc.Core.StatusCode.Unavailable))
+                {
+                    return StatusCode(500, responseDTO);
+                }
+
+                return NotFound(responseDTO);
+            }
+        }
+
+
     }
 }
