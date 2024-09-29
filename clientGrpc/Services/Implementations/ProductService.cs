@@ -1,4 +1,5 @@
-﻿using productProto;
+﻿using clientGrpc.DTOs;
+using productProto;
 
 namespace clientGrpc.Services.Implementations
 {
@@ -10,9 +11,9 @@ namespace clientGrpc.Services.Implementations
         {
             _ProductGrpcService = ProductGrpcService;
         }
-        public async Task <ProductGrpc> GetProductGrpc(string code) 
+        public async Task<ProductGrpc> GetProductGrpc(string code)
         {
-            var fetchByCode = new RequestId { Code = code};
+            var fetchByCode = new RequestId { Code = code };
 
             var response = await _ProductGrpcService.GetProductByCodeAsync(fetchByCode);
 
@@ -23,6 +24,23 @@ namespace clientGrpc.Services.Implementations
             var emptyRequest = new Empty(); // Solicitud vacía para obtener todos los productos
             var response = await _ProductGrpcService.GetAllProductsAsync(emptyRequest);
             return response;
+        }
+
+        public async Task<string> CreateProductGrpc(ProductDTO productDTO)
+        {
+            var newProduct = new ProductGrpc
+            {
+                Code = productDTO.Code,
+                Name = productDTO.Name,
+                Size = productDTO.Size,
+                Photo = Google.Protobuf.ByteString.CopyFrom(productDTO.Photo),
+                Color = productDTO.Color,
+                Active = productDTO.Active,
+                
+            };
+
+            var response = await _ProductGrpcService.CreateProductAsync(newProduct);
+            return response.Message;
         }
 
     }
