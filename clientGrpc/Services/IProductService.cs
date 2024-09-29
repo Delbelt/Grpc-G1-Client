@@ -4,6 +4,7 @@ namespace clientGrpc.Services
 {
     public interface IProductService
     {
-        Task<ProductGrpc> GetProductGrpc(string code); 
+        Task<ProductGrpc> GetProductGrpc(string code);
+        Task<ProductList> GetAllProductsGrpc();
     }
 }

@@ -46,7 +46,7 @@ namespace clientGrpc.Controllers
                 return NotFound(responseDTO);
             }
         }
-
+        
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
         {
