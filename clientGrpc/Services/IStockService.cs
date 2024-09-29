@@ -9,6 +9,6 @@ namespace clientGrpc.Services
         Task<StockList> GetAvailableStocks();
         Task<StockList> GetUnavailableStocks();
         Task<StockList> GetStockByProduct(string productCode);
-
+        Task<StockList> GetStockByStore(string storeCode);
     }
 }

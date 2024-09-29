@@ -173,6 +173,38 @@ namespace clientGrpc.Controllers
                 return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
             }
         }
+        [HttpGet("store/{storeCode}")] // Endpoint para obtener stock por tienda
+        public async Task<IActionResult> GetStockByStore(string storeCode)
+        {
+            try
+            {
+                var stockList = await _stockService.GetStockByStore(storeCode);
+
+                if (stockList.Stocks.Count == 0)
+                {
+                    return NotFound("No stocks available for this store.");
+                }
+
+                _logger.LogInformation("[StockController][GetStockByStore]: {count} stocks found", stockList.Stocks.Count);
+
+                var responseDTO = new mainDTO
+                {
+                    Content = stockList,
+                };
+
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[StockController][GetStockByStore]: {error}", ex.Message);
+
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
+            }
+        }
+
+
 
     }
 }

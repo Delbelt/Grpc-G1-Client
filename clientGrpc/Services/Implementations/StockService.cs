@@ -39,6 +39,11 @@ namespace clientGrpc.Services.Implementations
             var request = new GetStockByProductRequest { ProductCode = productCode };
             return await _client.getStockByProductAsync(request);
         }
+        public async Task<StockList> GetStockByStore(string storeCode)
+        {
+            var request = new GetStockByStoreRequest { StoreCode = storeCode };
+            return await _client.getStockByStoreAsync(request);
+        }
 
     }
 }
