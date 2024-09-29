@@ -27,10 +27,16 @@ message StockList {
     repeated StockGrpc stocks = 1; // Lista de stocks
 }
 
+// Mensaje para obtener un Stock por su código de producto
+message GetStockByProductRequest {
+    string productCode = 1;
+}
+
 // Definición del servicio gRPC
 service StockGrpcService {
     rpc getStockById(GetStockByIdRequest) returns (StockGrpc);
     rpc getAllStocks(Empty) returns (StockList);
     rpc getAvailableStocks(Empty) returns (StockList);
     rpc getUnavailableStocks(Empty) returns (StockList);
+    rpc getStockByProduct(GetStockByProductRequest) returns (StockList);
 }

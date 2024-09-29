@@ -34,5 +34,11 @@ namespace clientGrpc.Services.Implementations
             var request = new Empty(); // Solicitud vacía
             return await _client.getUnavailableStocksAsync(request);
         }
+        public async Task<StockList> GetStockByProduct(string productCode)
+        {
+            var request = new GetStockByProductRequest { ProductCode = productCode };
+            return await _client.getStockByProductAsync(request);
+        }
+
     }
 }
