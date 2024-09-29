@@ -1,4 +1,5 @@
-﻿using productProto;
+﻿using clientGrpc.DTOs;
+using productProto;
 
 namespace clientGrpc.Services
 {
@@ -6,5 +7,6 @@ namespace clientGrpc.Services
     {
         Task<ProductGrpc> GetProductGrpc(string code);
         Task<ProductList> GetAllProductsGrpc();
+        Task<string> CreateProductGrpc(ProductDTO productDTO);
     }
 }
