@@ -8,6 +8,7 @@ using greetProto;
 using userProto;
 using storeProto;
 using stockProto;
+using kafkaProto;
 
 var URL_FRONT = "http://localhost:3000";
 var URL_SERVER = "https://localhost:9091";
@@ -45,6 +46,16 @@ builder.Services.AddGrpcClient<AuthGrpcService.AuthGrpcServiceClient>(options =>
     options.Address = new Uri(URL_SERVER);
 })
 .ConfigurePrimaryHttpMessageHandler(() => httpHandler);
+
+// KAFKA
+
+builder.Services.AddGrpcClient<KafkaGrpcService.KafkaGrpcServiceClient>(options =>
+{
+    options.Address = new Uri(URL_SERVER);
+})
+.ConfigurePrimaryHttpMessageHandler(() => httpHandler)
+.AddInterceptor(provider => provider.GetRequiredService<AuthInterceptor>());
+
 
 // Agregar los clientes Grpc
 builder.Services.AddGrpcClient<GreeterGrpcService.GreeterGrpcServiceClient>(options =>
@@ -86,6 +97,7 @@ builder.Services.AddGrpcClient<ProductGrpcService.ProductGrpcServiceClient>(opti
 
 // Agregar al Scope los servicios
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IKafkaService, KafkaService>();
 builder.Services.AddScoped<IGreeterService, GreeterService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
