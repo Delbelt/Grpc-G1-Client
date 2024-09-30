@@ -12,6 +12,11 @@ namespace clientGrpc.Security
             _token = string.Empty;
         }
 
+        public string getToken()
+        {
+            return _token;
+        }
+
         public void SetToken(string token)
         {
             _token = token;
