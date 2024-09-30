@@ -1,4 +1,5 @@
-﻿using stockProto;
+﻿using productProto;
+using stockProto;
 
 namespace clientGrpc.Services.Implementations
 {
@@ -44,6 +45,19 @@ namespace clientGrpc.Services.Implementations
             var request = new GetStockByStoreRequest { StoreCode = storeCode };
             return await _client.getStockByStoreAsync(request);
         }
+        public async Task<CreateStockResponse> CreateStock(string storeCode, string productCode, int quantity)
+        {
+            var request = new CreateStockRequest
+            {
+                StoreCode = storeCode,
+                ProductCode = productCode, // Solo usamos el código del producto
+                Quantity = quantity
+            };
+
+            return await _client.createStockAsync(request);
+        }
+
+
 
     }
 }
