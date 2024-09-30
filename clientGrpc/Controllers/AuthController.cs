@@ -57,5 +57,22 @@ namespace clientGrpc.Controllers
                 return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
             }
         }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            string token = _authInterceptor.getToken();
+
+            _logger.LogInformation("[AuthController][Logout]: {token}", token);
+
+            if(string.IsNullOrEmpty(token))
+            {
+                return NotFound("Invalid or expired token");
+            }
+
+            _authInterceptor.SetToken(string.Empty);
+
+            return Ok("Logout successful");
+        }
     }
 }
