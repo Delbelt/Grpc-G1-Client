@@ -12,7 +12,25 @@ message StoreGrpc {
     string address = 2;
     string city = 3;          
     string province = 4;      
-    bool active = 5;          
+    bool active = 5; 
+    repeated StockGrpc stocks = 6;
+    repeated UserGrpc users = 7;
+}
+
+message StockGrpc {
+    string code = 1;                     
+    ProductGrpc product = 2;             
+    int32 quantity = 3;                  
+}
+
+message ProductGrpc {                       
+    string name = 1;                                          
+    string size = 2;                                            
+    string color = 3;                                           
+}
+message UserGrpc {                   
+    string userName = 1;                            
+    bool active = 2;                     
 }
 
 //Traer Store
@@ -30,9 +48,21 @@ message StoreListResponse {
     repeated StoreGrpc stores = 1;
 }
 
+// Mensaje para cambiar el estado de la tienda:
+message ChangeStoreStateRequest {
+    string code = 1;
+    bool active = 2;  
+}
+
 service StoreGrpcService {
     rpc getStoreGrpc (RequestCode) returns (StoreGrpc);
 
     // Nuevo método para traer tiendas por estado
     rpc GetStoresByState(StoreStateRequest) returns (StoreListResponse);
+
+    // Crear una tienda
+    rpc createStore(StoreGrpc) returns (StoreGrpc);
+    
+    // Metodo para habilitar o deshabilitar una tienda
+    rpc changeStoreState(ChangeStoreStateRequest) returns (StoreGrpc); 
 }
