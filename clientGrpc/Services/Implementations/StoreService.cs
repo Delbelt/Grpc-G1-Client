@@ -1,4 +1,5 @@
 ﻿using storeProto;
+using System.Reflection.Metadata.Ecma335;
 
 namespace clientGrpc.Services.Implementations
 {
@@ -24,6 +25,21 @@ namespace clientGrpc.Services.Implementations
             var response = await _client.GetStoresByStateAsync(request);
 
             return response.Stores.ToList();
+        }
+
+        public async Task<StoreGrpc> CreateStore(StoreGrpc store) {
+
+            var response = await _client.createStoreAsync(store);
+            return response;
+
+        }
+
+        public async Task<StoreGrpc> ChangeStoreState(string code, bool active) { 
+            var request = new ChangeStoreStateRequest { Code = code, Active = active };
+
+            var response = await _client.changeStoreStateAsync(request);
+
+            return response;
         }
 
     }

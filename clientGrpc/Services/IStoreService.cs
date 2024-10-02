@@ -8,5 +8,9 @@ namespace clientGrpc.Services
 
         Task<List<StoreGrpc>> GetStoresByState(bool active);
 
+        Task<StoreGrpc> CreateStore(StoreGrpc store);
+
+        Task<StoreGrpc> ChangeStoreState(string code, bool active);
+
     }
 }
