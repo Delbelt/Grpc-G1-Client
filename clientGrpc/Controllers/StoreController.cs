@@ -124,6 +124,31 @@ namespace clientGrpc.Controllers
                 return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
             }
         }
+
+        [HttpPost("{storeCode}/assign-product")]
+        public async Task<IActionResult> AssignProductToStore(string storeCode, [FromBody] string productCode)
+        {
+            try
+            {
+                var response = await _storeService.AssignProductToStore(storeCode, productCode);
+                _logger.LogInformation("[StoreController][AssignProductToStore]: Product assigned to store {storeCode}", storeCode);
+
+                var responseDTO = new mainDTO
+                {
+                    Content = response,
+                };
+
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[StoreController][AssignProductToStore]: {error}", ex.Message);
+
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
+            }
+        }
     }
 }
 

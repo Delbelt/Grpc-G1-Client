@@ -12,5 +12,8 @@ namespace clientGrpc.Services
 
         Task<StoreGrpc> ChangeStoreState(string code, bool active);
 
+        Task<StockGrpc> AssignProductToStore(string storeCode, string productCode);
+
+
     }
 }
