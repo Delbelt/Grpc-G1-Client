@@ -23,14 +23,28 @@ message StockGrpc {
     int32 quantity = 3;                  
 }
 
-message ProductGrpc {                       
-    string name = 1;                                          
-    string size = 2;                                            
-    string color = 3;                                           
+message ProductGrpc { 
+	string code = 1;
+    string name = 2;
+    string size = 3;
+    string photo = 4;
+    string color = 5;                                           
 }
 message UserGrpc {                   
     string userName = 1;                            
     bool active = 2;                     
+}
+
+// Mensaje para asignar un producto a una tienda
+message AssignProductRequest {
+    string storeCode = 1;                
+    string productCode = 2; // Código del producto
+}
+
+// Mensaje para asignar un usuario a una tienda
+message AssignUserRequest {
+    string storeCode = 1; 
+    UserGrpc user = 2; 
 }
 
 //Traer Store
@@ -65,4 +79,9 @@ service StoreGrpcService {
     
     // Metodo para habilitar o deshabilitar una tienda
     rpc changeStoreState(ChangeStoreStateRequest) returns (StoreGrpc); 
+
+    // Método para asignar producto a la tienda
+    rpc assignProductToStore (AssignProductRequest) returns (StockGrpc);
+    
+    
 }
