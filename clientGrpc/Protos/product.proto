@@ -8,6 +8,7 @@ service ProductGrpcService {
  rpc GetProductByCode (RequestId) returns (ProductGrpc);
  rpc GetAllProducts (Empty) returns (ProductList); 
  rpc CreateProduct(ProductGrpc) returns (ProductResponse);
+ rpc GetProductsByFilter(ProductFilterRequest) returns (ProductList);
 
 }
 
@@ -32,4 +33,11 @@ message ProductList {
 
 message ProductResponse {
     string message = 1;
+}
+
+message ProductFilterRequest {
+    string code = 1;
+    string name = 2;
+    string size = 3;
+    string color = 4;
 }
