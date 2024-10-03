@@ -143,5 +143,103 @@ namespace clientGrpc.Controllers
                 return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
             }
         }
+        [HttpGet("byproduct/{productCode}")]
+        public async Task<IActionResult> GetStockByProduct(string productCode)
+        {
+            try
+            {
+                var stockList = await _stockService.GetStockByProduct(productCode);
+
+                if (stockList.Stocks.Count == 0)
+                {
+                    return NotFound("No stocks found for this product.");
+                }
+
+                _logger.LogInformation("[StockController][GetStockByProduct]: {count} stocks found", stockList.Stocks.Count);
+
+                var responseDTO = new mainDTO
+                {
+                    Content = stockList,
+                };
+
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[StockController][GetStockByProduct]: {error}", ex.Message);
+
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
+            }
+        }
+        [HttpGet("store/{storeCode}")] // Endpoint para obtener stock por tienda
+        public async Task<IActionResult> GetStockByStore(string storeCode)
+        {
+            try
+            {
+                var stockList = await _stockService.GetStockByStore(storeCode);
+
+                if (stockList.Stocks.Count == 0)
+                {
+                    return NotFound("No stocks available for this store.");
+                }
+
+                _logger.LogInformation("[StockController][GetStockByStore]: {count} stocks found", stockList.Stocks.Count);
+
+                var responseDTO = new mainDTO
+                {
+                    Content = stockList,
+                };
+
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[StockController][GetStockByStore]: {error}", ex.Message);
+
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateStock([FromBody] CreateStockRequest createStockRequest)
+        {
+            try
+            {
+                // Asegúrate de que el request no sea nulo
+                if (createStockRequest == null)
+                {
+                    return BadRequest("Invalid stock creation request.");
+                }
+
+                // Llamar al servicio para crear el stock
+                var response = await _stockService.CreateStock(createStockRequest.StoreCode, createStockRequest.ProductCode, createStockRequest.Quantity);
+
+                // Regresar una respuesta 201 Created con el nuevo código de stock
+                return CreatedAtAction(nameof(GetStockByCode), new { code = response.Code }, response);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[StockController][CreateStock]: {error}", ex.Message);
+
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
+            }
+            catch (Exception ex) // Manejo adicional de excepciones generales si es necesario
+            {
+                var responseDTO = new mainDTO { Content = "An unexpected error occurred." };
+
+                _logger.LogError("[StockController][CreateStock]: {error}", ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, responseDTO);
+            }
+        }
+
+
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using stockProto;
+﻿using productProto;
+using stockProto;
 
 namespace clientGrpc.Services
 {
@@ -8,5 +9,8 @@ namespace clientGrpc.Services
         Task<StockList> GetAllStocks();
         Task<StockList> GetAvailableStocks();
         Task<StockList> GetUnavailableStocks();
+        Task<StockList> GetStockByProduct(string productCode);
+        Task<StockList> GetStockByStore(string storeCode);
+        Task<CreateStockResponse> CreateStock(string storeCode, string productCode, int quantity);
     }
 }
