@@ -43,5 +43,20 @@ namespace clientGrpc.Services.Implementations
             return response.Message;
         }
 
+        public async Task<ProductList> GetProductsByFilter(string code, string name, string size, string color)
+        {
+            var filterRequest = new ProductFilterRequest
+            {
+                Code = code ?? "",  // Si alguno de los parámetros es nulo, envía una cadena vacía
+                Name = name ?? "",
+                Size = size ?? "",
+                Color = color ?? ""
+            };
+
+            var response = await _ProductGrpcService.GetProductsByFilterAsync(filterRequest);
+
+            return response;
+        }
+
     }
 }
