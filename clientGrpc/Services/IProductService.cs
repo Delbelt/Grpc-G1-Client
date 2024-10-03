@@ -1,5 +1,7 @@
 ﻿using clientGrpc.DTOs;
 using productProto;
+using System.Drawing;
+using System.Xml.Linq;
 
 namespace clientGrpc.Services
 {
@@ -8,5 +10,6 @@ namespace clientGrpc.Services
         Task<ProductGrpc> GetProductGrpc(string code);
         Task<ProductList> GetAllProductsGrpc();
         Task<string> CreateProductGrpc(ProductDTO productDTO);
+        Task<ProductList> GetProductsByFilter(string code, string name, string size, string color);
     }
 }
