@@ -42,5 +42,12 @@ namespace clientGrpc.Services.Implementations
             return response;
         }
 
+        
+        public async Task<StockGrpc> AssignProductToStore(string storeCode, string productCode)
+        {
+            var request = new AssignProductRequest { StoreCode = storeCode, ProductCode = productCode };
+            var response = await _client.assignProductToStoreAsync(request);
+            return response; 
+        }
     }
 }
