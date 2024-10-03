@@ -104,6 +104,36 @@ namespace clientGrpc.Controllers
             
         }
 
+        [HttpGet("Filter")]
+        public async Task<IActionResult> GetProductsByFilter(
+            [FromQuery] string code = "",
+            [FromQuery] string name = "",
+            [FromQuery] string size = "",
+            [FromQuery] string color = "")
+        {
+            try
+            {
+                var response = await _productService.GetProductsByFilter(code, name, size, color);
 
+                _logger.LogInformation("[ProductController][GetProductsByFilter]: {message}", response.ToString());
+
+                var responseDTO = new mainDTO { Content = response };
+
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[ProductController][GetProductsByFilter]: {error}", ex.Message);
+
+                if (ex.StatusCode.Equals(Grpc.Core.StatusCode.Unavailable))
+                {
+                    return StatusCode(500, responseDTO);
+                }
+
+                return NotFound(responseDTO);
+            }
+        }
     }
 }
