@@ -9,7 +9,8 @@ service ProductGrpcService {
  rpc GetAllProducts (Empty) returns (ProductList); 
  rpc CreateProduct(ProductGrpc) returns (ProductResponse);
  rpc GetProductsByFilter(ProductFilterRequest) returns (ProductList);
-
+ rpc DeleteProduct(RequestId) returns (ProductResponse);
+ rpc UpdateProduct (ProductGrpc) returns (ProductResponse);
 }
 
 message RequestId {
