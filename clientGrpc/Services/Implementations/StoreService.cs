@@ -49,5 +49,28 @@ namespace clientGrpc.Services.Implementations
             var response = await _client.assignProductToStoreAsync(request);
             return response; 
         }
+
+        public async Task<StoreGrpc> AssignUserToStore(string storeCode, int userId)
+        {
+            var request = new AssignUserRequest { StoreCode = storeCode, UserId = userId };
+            var response = await _client.assignUserToStoreAsync(request);
+            return response;
+        }
+
+        public async Task<RemoveProductResponse> RemoveProductFromStore(string storeCode, string productCode)
+        {
+            var request = new RemoveProductRequest { StoreCode = storeCode, ProductCode = productCode };
+            var response = await _client.removeProductFromStoreAsync(request);
+            return response;
+        }
+
+        public async Task<RemoveUserResponse> RemoveUserFromStore(string storeCode, int userId)
+        {
+            var request = new RemoveUserRequest { StoreCode = storeCode, UserId = userId };
+            var response = await _client.removeUserFromStoreAsync(request);
+            return response;
+        }
+
+        
     }
 }
