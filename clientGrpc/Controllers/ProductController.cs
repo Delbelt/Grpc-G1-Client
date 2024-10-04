@@ -12,7 +12,7 @@ namespace clientGrpc.Controllers
         private readonly IProductService _productService;
         private readonly ILogger<IProductService> _logger;
 
-        public ProductController(IProductService productService , ILogger<IProductService> logger)
+        public ProductController(IProductService productService, ILogger<IProductService> logger)
         {
             _productService = productService;
             _logger = logger;
@@ -46,7 +46,7 @@ namespace clientGrpc.Controllers
                 return NotFound(responseDTO);
             }
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
         {
@@ -76,7 +76,7 @@ namespace clientGrpc.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromBody] ProductDTO productDTO                                     ) 
+        public async Task<IActionResult> CreateProduct([FromBody] ProductDTO productDTO)
         {
             try
             {
@@ -88,7 +88,7 @@ namespace clientGrpc.Controllers
 
                 return Ok(responseDTO);
             }
-            catch (RpcException ex) 
+            catch (RpcException ex)
             {
                 var responseDTO = new mainDTO { Content = ex.Status.Detail };
 
@@ -101,7 +101,7 @@ namespace clientGrpc.Controllers
 
                 return NotFound(responseDTO);
             }
-            
+
         }
 
         [HttpGet("Filter")]
@@ -134,6 +134,76 @@ namespace clientGrpc.Controllers
 
                 return NotFound(responseDTO);
             }
+        }
+
+        [HttpDelete("{code}")]
+        public async Task<IActionResult> DeleteProduct(string code)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(code))
+                {
+                    _logger.LogWarning("[ProductController][DeleteProduct]: Product code is required.");
+                    return BadRequest(new mainDTO { Content = "Product code is required." });
+                }
+
+                var result = await _productService.DeleteProductGrpc(code);
+
+                _logger.LogInformation("[ProductController][DeleteProduct]: Successfully deleted product with code {code}.", code);
+
+                var responseDTO = new mainDTO { Content = result };
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[ProductController][DeleteProduct]: Error occurred while deleting product with code {code}. Error: {error}", code, ex.Message);
+
+                if (ex.StatusCode.Equals(Grpc.Core.StatusCode.Unavailable))
+                {
+                    return StatusCode(500, responseDTO);
+                }
+
+                return NotFound(responseDTO);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct([FromBody] ProductDTO productDTO)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(productDTO.Code))
+                {
+                    _logger.LogWarning("[ProductController][UpdateProduct]: Product code is required.");
+                    return BadRequest(new mainDTO { Content = "Product code is required." });
+                }
+
+                // Llamar al servicio para actualizar el producto
+                var response = await _productService.UpdateProductGrpc(productDTO);
+
+                _logger.LogInformation("[ProductController][UpdateProduct]: {message}", response.ToString());
+
+                var responseDTO = new mainDTO { Content = response };
+
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[ProductController][UpdateProduct]: {error}", ex.Message);
+
+                if (ex.StatusCode.Equals(Grpc.Core.StatusCode.Unavailable))
+                {
+                    return StatusCode(500, responseDTO);
+                }
+
+                return NotFound(responseDTO);
+            }
+
+
         }
     }
 }
