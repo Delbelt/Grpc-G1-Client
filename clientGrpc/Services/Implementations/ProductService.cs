@@ -1,4 +1,5 @@
 ﻿using clientGrpc.DTOs;
+using Grpc.Core;
 using productProto;
 
 namespace clientGrpc.Services.Implementations
@@ -56,6 +57,39 @@ namespace clientGrpc.Services.Implementations
             var response = await _ProductGrpcService.GetProductsByFilterAsync(filterRequest);
 
             return response;
+        }
+
+        public async Task<string> DeleteProductGrpc(string code)
+        {
+            var requestId = new RequestId { Code = code };
+            var response = await _ProductGrpcService.DeleteProductAsync(requestId);
+            return response.Message;
+        }
+
+        public async Task<string> UpdateProductGrpc(ProductDTO productDTO)
+        {
+            try
+            {
+                // Construir el mensaje ProductGrpc a partir del DTO
+                var productRequest = new ProductGrpc
+                {
+                    Code = productDTO.Code ?? "",
+                    Name = productDTO.Name ?? "",
+                    Size = productDTO.Size ?? "",
+                    Photo = null,
+                    Color = productDTO.Color ?? "",
+                    Active = false
+                };
+
+                // Llamar al método gRPC updateProduct
+                var response = await _ProductGrpcService.UpdateProductAsync(productRequest);
+
+                return response.Message;
+            }
+            catch (RpcException ex)
+            {
+                throw new RpcException(new Status(ex.StatusCode, ex.Status.Detail));
+            }
         }
 
     }
