@@ -14,6 +14,12 @@ namespace clientGrpc.Services
 
         Task<StockGrpc> AssignProductToStore(string storeCode, string productCode);
 
+        Task<StoreGrpc> AssignUserToStore(string storeCode, int userId);
+
+        Task<RemoveProductResponse> RemoveProductFromStore(string storeCode, string productCode);
+
+        Task<RemoveUserResponse> RemoveUserFromStore(string storeCode, int userId);
+
 
     }
 }
