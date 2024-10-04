@@ -6,6 +6,11 @@ package product;
 
 service ProductGrpcService {
  rpc GetProductByCode (RequestId) returns (ProductGrpc);
+ rpc GetAllProducts (Empty) returns (ProductList); 
+ rpc CreateProduct(ProductGrpc) returns (ProductResponse);
+ rpc GetProductsByFilter(ProductFilterRequest) returns (ProductList);
+ rpc DeleteProduct(RequestId) returns (ProductResponse);
+ rpc UpdateProduct (ProductGrpc) returns (ProductResponse);
 }
 
 message RequestId {
@@ -16,7 +21,24 @@ message ProductGrpc {
     string code = 1;
     string name = 2;
     string size = 3;
-    string photo = 4;
+    bytes photo = 4;
     string color = 5;
     bool active = 6; 
+}
+
+message Empty {} // Mensaje vacío para la solicitud de todos los productos
+
+message ProductList { 
+  repeated ProductGrpc products = 1; // Lista de productos
+}
+
+message ProductResponse {
+    string message = 1;
+}
+
+message ProductFilterRequest {
+    string code = 1;
+    string name = 2;
+    string size = 3;
+    string color = 4;
 }
