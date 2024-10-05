@@ -57,6 +57,28 @@ namespace clientGrpc.Services.Implementations
             return await _client.createStockAsync(request);
         }
 
+        public async Task<StockGrpc> AddStock(string stockCode, int quantity)
+        {
+            var request = new AddStockRequest
+            {
+                StockCode = stockCode,
+                Quantity = quantity
+            };
+
+            return await _client.addStockAsync(request);
+        }
+
+        public async Task<StockGrpc> SubtractStock(string stockCode, int quantity)
+        {
+            var request = new SubtractStockRequest
+            {
+                StockCode = stockCode,
+                Quantity = quantity
+            };
+
+            return await _client.subtractStockAsync(request);
+        }
+
 
 
     }

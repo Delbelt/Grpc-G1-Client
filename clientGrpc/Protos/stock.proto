@@ -9,7 +9,7 @@ import "Protos/product.proto";
 // Mensaje Stock que contiene solo los códigos de store y product
 message StockGrpc {
     string code = 1;
-    string storeCode = 2; // Es string ya que en el mensaje se muestra solo el codigo, no el store completo
+    string storeCode = 2; // Es string ya que en el mensaje se muestra solo el código, no el store completo
     product.ProductGrpc product = 3; // Muestra el objeto producto
     int32 quantity = 4;
 }
@@ -31,10 +31,12 @@ message StockList {
 message GetStockByProductRequest {
     string productCode = 1;
 }
+
 // Mensaje para obtener un Stock por su código de tienda
 message GetStockByStoreRequest {
     string storeCode = 1;
 }
+
 // Mensaje para crear un nuevo Stock
 message CreateStockRequest {
     string storeCode = 1;
@@ -47,6 +49,19 @@ message CreateStockResponse {
     string code = 1; // Código generado para el nuevo stock
     string message = 2; // Mensaje de éxito o error
 }
+
+// Mensaje para agregar stock
+message AddStockRequest {
+    string stockCode = 1; // Código del stock a agregar
+    int32 quantity = 2;    // Cantidad a agregar
+}
+
+// Mensaje para restar stock
+message SubtractStockRequest {
+    string stockCode = 1; // Código del stock a restar
+    int32 quantity = 2;    // Cantidad a restar
+}
+
 // Definición del servicio gRPC
 service StockGrpcService {
     rpc getStockById(GetStockByIdRequest) returns (StockGrpc);
@@ -56,4 +71,6 @@ service StockGrpcService {
     rpc getStockByProduct(GetStockByProductRequest) returns (StockList);
     rpc getStockByStore(GetStockByStoreRequest) returns (StockList);
     rpc createStock(CreateStockRequest) returns (CreateStockResponse);
+    rpc addStock(AddStockRequest) returns (StockGrpc);            // Nuevo RPC para agregar stock
+    rpc subtractStock(SubtractStockRequest) returns (StockGrpc);  // Nuevo RPC para restar stock
 }
