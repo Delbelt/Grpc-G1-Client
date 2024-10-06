@@ -43,8 +43,31 @@ message AssignProductRequest {
 
 // Mensaje para asignar un usuario a una tienda
 message AssignUserRequest {
-    string storeCode = 1; 
-    UserGrpc user = 2; 
+    string storeCode = 1;
+    int32 userId = 2; // Se usa el id del usuario para la asignación
+}
+
+
+// Mensaje para desasignar un producto de una tienda
+message RemoveProductRequest {
+    string storeCode = 1;
+    string productCode = 2;
+}
+
+// Mensaje para desasignar un usuario de una tienda
+message RemoveUserRequest {
+    string storeCode = 1;
+    int32 userId = 2; // Se usa el id del usuario para la desasignación
+}
+
+// Mensaje para respuesta de eliminar producto
+message RemoveProductResponse {
+    string message = 1; 
+}
+
+// Mensaje para respuesta de eliminar usuario
+message RemoveUserResponse {
+    string message = 1; // 
 }
 
 //Traer Store
@@ -83,5 +106,12 @@ service StoreGrpcService {
     // Método para asignar producto a la tienda
     rpc assignProductToStore (AssignProductRequest) returns (StockGrpc);
     
-    
+    // Asignar usuario a una tienda
+    rpc assignUserToStore (AssignUserRequest) returns (StoreGrpc);
+
+    // Desasignar producto de una tienda
+    rpc removeProductFromStore (RemoveProductRequest) returns (RemoveProductResponse);
+
+    // Desasignar usuario de una tienda
+    rpc removeUserFromStore (RemoveUserRequest) returns (RemoveUserResponse);
 }

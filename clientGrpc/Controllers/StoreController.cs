@@ -149,6 +149,88 @@ namespace clientGrpc.Controllers
                 return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
             }
         }
+
+        [HttpPost("{storeCode}/assign-user")]
+        public async Task<IActionResult> AssignUserToStore(string storeCode, [FromBody] int userId)
+        {
+            try
+            {
+                var response = await _storeService.AssignUserToStore(storeCode, userId);
+                _logger.LogInformation("[StoreController][AssignUserToStore]: User assigned to store {storeCode}", storeCode);
+
+                var responseDTO = new mainDTO
+                {
+                    Content = response,
+                };
+
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[StoreController][AssignUserToStore]: {error}", ex.Message);
+
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
+            }
+        }
+
+        // Desasignar producto de la tienda
+        [HttpPost("{storeCode}/remove-product")]
+        public async Task<IActionResult> RemoveProductFromStore(string storeCode, [FromBody] string productCode)
+        {
+            try
+            {
+                var response = await _storeService.RemoveProductFromStore(storeCode, productCode);
+                _logger.LogInformation("[StoreController][RemoveProductFromStore]: Product removed from store {storeCode}", storeCode);
+
+                var responseDTO = new mainDTO
+                {
+                    Content = response,
+                };
+
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[StoreController][RemoveProductFromStore]: {error}", ex.Message);
+
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
+            }
+        }
+
+        // Desasignar usuario de la tienda
+        [HttpPost("{storeCode}/remove-user")]
+        public async Task<IActionResult> RemoveUserFromStore(string storeCode, [FromBody] int userId)
+        {
+            try
+            {
+                var response = await _storeService.RemoveUserFromStore(storeCode, userId);
+                _logger.LogInformation("[StoreController][RemoveUserFromStore]: User removed from store {storeCode}", storeCode);
+
+                var responseDTO = new mainDTO
+                {
+                    Content = response,
+                };
+
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[StoreController][RemoveUserFromStore]: {error}", ex.Message);
+
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
+            }
+        }
+
+
+
+
+
     }
 }
 
