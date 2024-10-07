@@ -239,6 +239,50 @@ namespace clientGrpc.Controllers
             }
         }
 
+        [HttpPost("add")]
+        public async Task<IActionResult> AddStock([FromBody] AddStockRequest addStockRequest)
+        {
+            try
+            {
+                if (addStockRequest == null)
+                {
+                    return BadRequest("Invalid stock addition request.");
+                }
+
+                var stock = await _stockService.AddStock(addStockRequest.StockCode, addStockRequest.Quantity);
+
+                return Ok(stock);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+                _logger.LogError("[StockController][AddStock]: {error}", ex.Message);
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
+            }
+        }
+
+        [HttpPost("subtract")]
+        public async Task<IActionResult> SubtractStock([FromBody] SubtractStockRequest subtractStockRequest)
+        {
+            try
+            {
+                if (subtractStockRequest == null)
+                {
+                    return BadRequest("Invalid stock subtraction request.");
+                }
+
+                var stock = await _stockService.SubtractStock(subtractStockRequest.StockCode, subtractStockRequest.Quantity);
+
+                return Ok(stock);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+                _logger.LogError("[StockController][SubtractStock]: {error}", ex.Message);
+                return GrpcExceptionHandler.HandleGrpcException(ex, responseDTO);
+            }
+        }
+
 
 
     }
