@@ -18,7 +18,7 @@ namespace clientGrpc.Controllers
             _logger = logger;
         }
 
-        [HttpGet("{code}")]
+        [HttpGet("/GetProductById/{code}")] 
         public async Task<IActionResult> GetProductById(string code)
         {
             try
@@ -47,7 +47,7 @@ namespace clientGrpc.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("/GetAllProducts")]
         public async Task<IActionResult> GetAllProducts()
         {
             try
@@ -75,7 +75,7 @@ namespace clientGrpc.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("/CreateProduct")]
         public async Task<IActionResult> CreateProduct([FromBody] ProductDTO productDTO)
         {
             try
@@ -104,7 +104,7 @@ namespace clientGrpc.Controllers
 
         }
 
-        [HttpGet("Filter")]
+        [HttpGet("/GetByFilter")]
         public async Task<IActionResult> GetProductsByFilter(
             [FromQuery] string code = "",
             [FromQuery] string name = "",
@@ -169,7 +169,9 @@ namespace clientGrpc.Controllers
             }
         }
 
-        [HttpPut]
+        
+
+        [HttpPut ]
         public async Task<IActionResult> UpdateProduct([FromBody] ProductDTO productDTO)
         {
             try
@@ -194,6 +196,46 @@ namespace clientGrpc.Controllers
                 var responseDTO = new mainDTO { Content = ex.Status.Detail };
 
                 _logger.LogError("[ProductController][UpdateProduct]: {error}", ex.Message);
+
+                if (ex.StatusCode.Equals(Grpc.Core.StatusCode.Unavailable))
+                {
+                    return StatusCode(500, responseDTO);
+                }
+
+                return NotFound(responseDTO);
+            }
+
+
+        }
+
+
+        [HttpPut("{code}/modifyActive")]
+        public async Task<IActionResult> ModifyProductActive([FromRoute] string code)
+        {
+            try
+            {
+               
+
+                if (string.IsNullOrEmpty(code))
+                {
+                    _logger.LogWarning("[ProductController][ModifyProductActive]: Product code is required.");
+                    return BadRequest(new mainDTO { Content = "Product code is required." });
+                }
+
+                // Llamar al servicio para actualizar el producto
+                var response = await _productService.ModifyProductActiveGrpc(code);
+
+                _logger.LogInformation("[ProductController][ModifyProductActive]: {message}", response.ToString());
+
+                var responseDTO = new mainDTO { Content = response };
+
+                return Ok(responseDTO);
+            }
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[ProductController][ModifyProductActive]: {error}", ex.Message);
 
                 if (ex.StatusCode.Equals(Grpc.Core.StatusCode.Unavailable))
                 {
