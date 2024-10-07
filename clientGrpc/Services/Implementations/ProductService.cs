@@ -22,7 +22,7 @@ namespace clientGrpc.Services.Implementations
         }
         public async Task<ProductList> GetAllProductsGrpc()
         {
-            var emptyRequest = new Empty(); // Solicitud vacía para obtener todos los productos
+            var emptyRequest = new Empty(); 
             var response = await _ProductGrpcService.GetAllProductsAsync(emptyRequest);
             return response;
         }
@@ -36,7 +36,7 @@ namespace clientGrpc.Services.Implementations
                 Size = productDTO.Size,
                 Photo = Google.Protobuf.ByteString.CopyFrom(productDTO.Photo),
                 Color = productDTO.Color,
-                Active = productDTO.Active,
+                Active = true,
                 
             };
 
@@ -92,5 +92,44 @@ namespace clientGrpc.Services.Implementations
             }
         }
 
-    }
+        public async Task<string> ModifyProductActiveGrpc(string code)
+        {
+
+            try
+            {
+                var requestId = new RequestId { Code = code };
+                var productResponse = await _ProductGrpcService.GetProductByCodeAsync(requestId);
+                if (productResponse == null)
+                {
+                    return "Product not found.";
+                }
+
+              
+                var updatedActiveStatus = !productResponse.Active;  // Cambia el estado
+
+                // Crear el objeto actualizado ProductGrpc
+                var updatedProductRequest = new ProductGrpc
+                {
+                    Code = productResponse.Code,
+                    Name = productResponse.Name,
+                    Size = productResponse.Size,
+                    Photo = productResponse.Photo,
+                    Color = productResponse.Color,
+                    Active = updatedActiveStatus 
+                };
+
+                // Llamar al método gRPC updateProduct para actualizar el producto
+                var response = await _ProductGrpcService.UpdateProductAsync(updatedProductRequest);
+
+                return response.Message;
+            }
+            catch (RpcException ex)
+            {
+                throw new RpcException(new Status(ex.StatusCode, ex.Status.Detail));
+            }
+
+
+        }
+
+     }
 }
