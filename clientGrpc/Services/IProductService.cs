@@ -13,6 +13,7 @@ namespace clientGrpc.Services
         Task<ProductList> GetProductsByFilter(string code, string name, string size, string color);
         Task<string> DeleteProductGrpc(string code);
         Task<string> UpdateProductGrpc(ProductDTO productDTO);
+        Task<string> ModifyProductActiveGrpc(string code);
 
     }
 }
