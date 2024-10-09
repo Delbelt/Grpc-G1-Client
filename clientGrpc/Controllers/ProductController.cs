@@ -75,6 +75,35 @@ namespace clientGrpc.Controllers
             }
         }
 
+        [HttpGet("/GetAllProductsState/state/{active}")]
+        public async Task<IActionResult> GetAllProductsState(bool active)
+        {
+            try
+            {
+                var response = await _productService.GetAllProductsActive(active);
+
+                _logger.LogInformation("[ProductController][GetAllProductsState]: {message}", response.ToString());
+
+                var responseDTO = new mainDTO { Content = response };
+
+                return Ok(responseDTO);
+            }
+
+            catch (RpcException ex)
+            {
+                var responseDTO = new mainDTO { Content = ex.Status.Detail };
+
+                _logger.LogError("[ProductController][GetAllProductsState]: {error}", ex.Message);
+
+                if (ex.StatusCode.Equals(Grpc.Core.StatusCode.Unavailable))
+                {
+                    return StatusCode(500, responseDTO);
+                }
+
+                return NotFound(responseDTO);
+            }
+        }
+
         [HttpPost("/CreateProduct")]
         public async Task<IActionResult> CreateProduct([FromBody] ProductDTO productDTO)
         {
