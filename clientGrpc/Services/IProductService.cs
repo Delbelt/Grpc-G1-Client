@@ -9,6 +9,7 @@ namespace clientGrpc.Services
     {
         Task<ProductGrpc> GetProductGrpc(string code);
         Task<ProductList> GetAllProductsGrpc();
+        Task<ProductList> GetAllProductsActive(Boolean active);
         Task<string> CreateProductGrpc(ProductDTO productDTO);
         Task<ProductList> GetProductsByFilter(string code, string name, string size, string color);
         Task<string> DeleteProductGrpc(string code);

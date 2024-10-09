@@ -6,5 +6,6 @@ namespace clientGrpc.Services
     {
         // PRUEBA DE PERSISTENCIA: Se genera el objetoGrpc
         Task<UserGrpc> GetUserGrpc(int id);
+        Task<UserList> GetUserList();
     }
 }

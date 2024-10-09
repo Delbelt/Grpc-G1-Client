@@ -1,6 +1,7 @@
 ﻿using clientGrpc.DTOs;
 using Grpc.Core;
 using productProto;
+using storeProto;
 
 namespace clientGrpc.Services.Implementations
 {
@@ -12,7 +13,7 @@ namespace clientGrpc.Services.Implementations
         {
             _ProductGrpcService = ProductGrpcService;
         }
-        public async Task<ProductGrpc> GetProductGrpc(string code)
+        public async Task<productProto.ProductGrpc> GetProductGrpc(string code)
         {
             var fetchByCode = new RequestId { Code = code };
 
@@ -22,22 +23,31 @@ namespace clientGrpc.Services.Implementations
         }
         public async Task<ProductList> GetAllProductsGrpc()
         {
-            var emptyRequest = new Empty(); 
+            var emptyRequest = new Empty();
             var response = await _ProductGrpcService.GetAllProductsAsync(emptyRequest);
+            return response;
+        }
+
+        public async Task<ProductList> GetAllProductsActive(Boolean active)
+        {
+
+            var requestActive = new RequestActive { Active = active };
+
+            var response = await _ProductGrpcService.GetAllProductsActiveAsync(requestActive);
+
             return response;
         }
 
         public async Task<string> CreateProductGrpc(ProductDTO productDTO)
         {
-            var newProduct = new ProductGrpc
+            var newProduct = new productProto.ProductGrpc
             {
                 Code = productDTO.Code,
                 Name = productDTO.Name,
                 Size = productDTO.Size,
-                Photo = Google.Protobuf.ByteString.CopyFrom(productDTO.Photo),
+                Photo = productDTO.Photo,
                 Color = productDTO.Color,
-                Active = true,
-                
+                Active = true,                
             };
 
             var response = await _ProductGrpcService.CreateProductAsync(newProduct);
@@ -71,7 +81,7 @@ namespace clientGrpc.Services.Implementations
             try
             {
                 // Construir el mensaje ProductGrpc a partir del DTO
-                var productRequest = new ProductGrpc
+                var productRequest = new productProto.ProductGrpc
                 {
                     Code = productDTO.Code ?? "",
                     Name = productDTO.Name ?? "",
@@ -108,7 +118,7 @@ namespace clientGrpc.Services.Implementations
                 var updatedActiveStatus = !productResponse.Active;  // Cambia el estado
 
                 // Crear el objeto actualizado ProductGrpc
-                var updatedProductRequest = new ProductGrpc
+                var updatedProductRequest = new productProto.ProductGrpc
                 {
                     Code = productResponse.Code,
                     Name = productResponse.Name,
