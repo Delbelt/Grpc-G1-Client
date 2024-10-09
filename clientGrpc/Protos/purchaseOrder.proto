@@ -1,0 +1,43 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "purchaseOrderProto";
+
+package purchase_order;
+
+import "Protos/orderItem.proto";
+
+service PurchaseOrderGrpcService {
+    rpc GetPurchaseOrderGrpc(GetByDispatchOrderRequest) returns (PurchaseOrderGrpc);
+    rpc PostPurchaseOrderGrpc(PostPurchaseOrderRequest) returns (PurchaseOrderGrpc);
+    rpc GetAllPurchaseOrderGrpc(EmptyAll) returns (PurchaseOrders);
+    rpc GetAllByStatePurchaseOrderGrpc(RequestAllByState) returns (PurchaseOrders);
+}
+
+message EmptyAll {}
+
+message RequestAllByState {
+	string state = 1;
+}
+
+message PurchaseOrders {
+  repeated PurchaseOrderGrpc orders = 1; 
+}
+
+message GetByDispatchOrderRequest {
+    int32 idPurchaseOrder = 1;
+}
+
+message PurchaseOrderGrpc {
+    int32 idPurchaseOrder = 1;
+    string state = 2;
+    string observations = 3;
+    google.protobuf.Timestamp requestDate = 4;
+    repeated order_item.OrderItemGrpc items = 5;
+}
+
+message PostPurchaseOrderRequest {
+	string codeStore = 1;
+	repeated order_item.OrderItemGrpc items = 2;
+}

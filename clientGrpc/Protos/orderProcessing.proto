@@ -1,0 +1,14 @@
+﻿syntax = "proto3";
+option csharp_namespace = "OrderProcessingProto";
+
+package OrderProcessing;
+
+service OrderProcessingGrpcService {
+    rpc RunProcess(EmptyProcessing) returns (ProcessingResponse);
+}
+
+message EmptyProcessing {}
+
+message ProcessingResponse {
+    string status = 1;
+}

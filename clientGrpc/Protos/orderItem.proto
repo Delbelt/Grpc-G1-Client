@@ -1,0 +1,20 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "orderItemProto";
+
+package order_item;
+
+service OrderItemGrpcService {
+    rpc GetPurcharseOrderGrpc(GetByIdRequest) returns (OrderItemGrpc);
+}
+
+message GetByIdRequest {
+    int32 id = 1;
+}
+
+message OrderItemGrpc {
+    string code = 1;
+    string color = 2;
+    string size = 3;
+    int32 quantity = 4;
+}

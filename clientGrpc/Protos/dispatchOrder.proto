@@ -1,0 +1,21 @@
+﻿syntax = "proto3";
+
+import "Protos/date.proto";
+
+option csharp_namespace = "dispatchOrderProto";
+
+package dispatch_order;
+
+service DispatchOrderGrpcService {
+    rpc GetDispatchOrderGrpc(GetByDispatchOrderRequest) returns (DispatchOrderGrpc);
+}
+
+message GetByDispatchOrderRequest {
+    int32 dispatchOrder = 1;
+}
+
+message DispatchOrderGrpc {
+    int32 dispatchOrder = 1;
+    int32 idPurchaseOrder = 2;
+    date.Date estimatedDate = 3;
+}
