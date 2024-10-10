@@ -18,5 +18,14 @@ namespace clientGrpc.Services.Implementations
 
             return response;
         }
+
+        public async Task<UserList> GetUserList()
+        {
+            var emptyRequest = new Empty();
+
+            var response = await _UserGrpcService.GetAllUserGrpcAsync(emptyRequest);
+
+            return response;
+        }
     }
 }

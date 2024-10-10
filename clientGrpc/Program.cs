@@ -9,6 +9,10 @@ using userProto;
 using storeProto;
 using stockProto;
 using kafkaProto;
+using orderItemProto;
+using purchaseOrderProto;
+using dispatchOrderProto;
+using OrderProcessingProto;
 
 var URL_FRONT = "http://localhost:3000";
 var URL_SERVER = "https://localhost:9091";
@@ -95,6 +99,34 @@ builder.Services.AddGrpcClient<ProductGrpcService.ProductGrpcServiceClient>(opti
 .ConfigurePrimaryHttpMessageHandler(() => httpHandler)
 .AddInterceptor(provider => provider.GetRequiredService<AuthInterceptor>());
 
+builder.Services.AddGrpcClient<PurchaseOrderGrpcService.PurchaseOrderGrpcServiceClient>(options =>
+{
+    options.Address = new Uri(URL_SERVER);
+})
+.ConfigurePrimaryHttpMessageHandler(() => httpHandler)
+.AddInterceptor(provider => provider.GetRequiredService<AuthInterceptor>());
+
+builder.Services.AddGrpcClient<OrderItemGrpcService.OrderItemGrpcServiceClient>(options =>
+{
+    options.Address = new Uri(URL_SERVER);
+})
+.ConfigurePrimaryHttpMessageHandler(() => httpHandler)
+.AddInterceptor(provider => provider.GetRequiredService<AuthInterceptor>());
+
+builder.Services.AddGrpcClient<DispatchOrderGrpcService.DispatchOrderGrpcServiceClient>(options =>
+{
+    options.Address = new Uri(URL_SERVER);
+})
+.ConfigurePrimaryHttpMessageHandler(() => httpHandler)
+.AddInterceptor(provider => provider.GetRequiredService<AuthInterceptor>());
+
+builder.Services.AddGrpcClient<OrderProcessingGrpcService.OrderProcessingGrpcServiceClient>(options =>
+{
+    options.Address = new Uri(URL_SERVER);
+})
+.ConfigurePrimaryHttpMessageHandler(() => httpHandler)
+.AddInterceptor(provider => provider.GetRequiredService<AuthInterceptor>());
+
 // Agregar al Scope los servicios
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IKafkaService, KafkaService>();
@@ -103,6 +135,11 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
 builder.Services.AddScoped<IStockService, StockService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IOrderItemService, OrderItemService>();
+builder.Services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
+builder.Services.AddScoped<IDispatchOrderService, DispatchOrderService>();
+
+builder.Services.AddScoped<IOrderProcessingService, OrderProcessingService>();
 
 var app = builder.Build();
 

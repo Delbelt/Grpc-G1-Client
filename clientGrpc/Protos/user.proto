@@ -6,6 +6,7 @@ package user;
 
 service UserGrpcService {
   rpc GetUserGrpc (RequestId) returns (UserGrpc);
+  rpc GetAllUserGrpc (Empty) returns (UserList); 
 }
 
 // Objeto a traves de Protocol Buffers
@@ -17,4 +18,10 @@ message UserGrpc {
 // Para traer al cliente
 message RequestId {
   int32 id = 1;
+}
+
+message Empty {}
+
+message UserList {
+  repeated UserGrpc users = 1;
 }
